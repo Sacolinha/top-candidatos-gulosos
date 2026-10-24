@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#087443">
+<title>Top Candidatos — Simulador fictício</title>
+<style>
+:root{--green:#087443;--dark:#064b2e;--yellow:#ffdf00;--blue:#173a8a;--bg:#f2f5f3;--ink:#14231b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,var(--dark),var(--green));color:white;padding:22px 16px 26px;border-bottom:5px solid var(--yellow)}
+.wrap{max-width:760px;margin:auto} .brand{font-weight:900;font-size:1.55rem;letter-spacing:.2px}.tag{display:inline-block;background:#fff2;border:1px solid #ffffff70;border-radius:99px;padding:5px 9px;font-size:.75rem;margin-top:8px}
+main{padding:18px 13px 36px}.notice{background:#fff8d8;border:1px solid #eed66d;border-radius:12px;padding:12px;font-size:.88rem;line-height:1.4;margin-bottom:16px}
+.panel{background:white;border-radius:16px;padding:17px;margin:14px 0;box-shadow:0 4px 18px #092e1710;border:1px solid #e0e8e2}
+h2{font-size:1.15rem;margin:0 0 13px}.sub{color:#52645a;font-size:.9rem}
+.candidates{display:grid;gap:10px}.candidate{display:flex;gap:12px;align-items:center;border:1px solid #dce5df;border-radius:13px;padding:12px}.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#e7f4eb;color:var(--green);font-weight:900;font-size:1.2rem;flex-shrink:0}.details{flex:1;min-width:0}.name{font-weight:800}.party{font-size:.78rem;color:#617067;margin-top:2px}.votes{font-weight:900;color:var(--green);font-size:.92rem;text-align:right;white-space:nowrap}.bar{height:7px;background:#e8eee9;border-radius:20px;margin-top:8px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#0a7545,#74bd53);width:0%;transition:width .25s}
+button{font:inherit;font-weight:750;border:0;border-radius:10px;padding:11px 14px;cursor:pointer;touch-action:manipulation}.vote{background:var(--green);color:white;margin-top:9px;width:100%}.vote:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#e9efeb;color:#193c2a}.row{display:flex;gap:9px;flex-wrap:wrap}.row button{flex:1}.screen{background:#18231c;border:5px solid #aeb9b0;border-radius:18px;padding:14px;color:#f8fff9}.screen-top{text-align:center;color:#b6e4c5;font-weight:800;letter-spacing:.08em;font-size:.75rem}.screen-inner{background:#f8faf7;color:#14231b;border-radius:8px;padding:14px;margin-top:10px}.digit{font-size:1.8rem;letter-spacing:7px;font-weight:900;text-align:center;border:2px solid #ccd6ce;border-radius:7px;padding:9px}.screen-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.screen-buttons button{background:#f4f5f2;color:#18231c;padding:12px 5px}.screen-buttons .white{background:#fff}.screen-buttons .orange{background:#f2a32b}.screen-buttons .green{background:#198348;color:white}.result-line{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e8eee9}.result-line:last-child{border:0}.result-line strong{overflow-wrap:anywhere}.small{font-size:.78rem;color:#68776d}.footer{text-align:center;color:#68776d;font-size:.78rem;padding:8px 12px 24px}input{font:inherit;border:1px solid #cbd8ce;border-radius:9px;padding:11px;width:100%;margin:6px 0 10px}label{font-size:.85rem;font-weight:700}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">🇧🇷 Top Candidatos</div><div>Ranking de popularidade • edição fictícia</div><span class="tag">SIMULADOR — NÃO É UMA ELEIÇÃO OFICIAL</span></div></header>
+<main class="wrap">
+<div class="notice"><strong>Importante:</strong> este é um simulador de brincadeira. Os votos são guardados apenas neste navegador e não representam uma pesquisa ou eleição real. Para compartilhar votos entre visitantes, é necessário publicar o site com um serviço de banco de dados.</div>
+<section class="panel">
+<h2>🗳️ Vote na urna</h2><p class="sub">Digite o número do candidato ou escolha um nome na lista abaixo.</p>
+<div class="screen"><div class="screen-top">JUSTIÇA ELEITORAL • SIMULADOR</div><div class="screen-inner"><div style="font-size:.85rem;font-weight:700;margin-bottom:8px">SEU VOTO PARA CANDIDATO</div><div id="digits" class="digit" aria-live="polite">_ _</div><div id="candidatePreview" style="text-align:center;font-weight:800;margin-top:8px">Digite 2 números</div></div><div class="screen-buttons" id="keypad"><button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button><button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button><button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button><button class="white" data-key="clear">Corrige</button><button data-key="0">0</button><button class="orange" data-key="blank">Branco</button><button class="green" style="grid-column:span 3" data-key="confirm">CONFIRMA</button></div></div>
+<p class="small">Você pode votar uma vez por navegador neste aparelho. É uma limitação local, não uma proteção contra votos repetidos.</p>
+</section>
+<section class="panel"><h2>🏆 Ranking de candidatos</h2><p class="sub">Os votos de demonstração começam zerados. O ranking muda após cada voto.</p><div class="candidates" id="candidates"></div></section>
+<section class="panel"><h2>📊 Resultado do simulador</h2><div id="results"></div><div class="row" style="margin-top:12px"><button class="secondary" id="reset">Zerar votos deste navegador</button><button class="secondary" id="export">Exportar resultado</button></div><p class="small">Zerar apaga apenas os dados salvos neste navegador. Outros visitantes têm dados separados.</p></section>
+<section class="panel"><h2>⚙️ Personalizar candidatos</h2><p class="sub">Adicione candidatos de brincadeira. Não use nomes/imagens de pessoas reais sem autorização.</p><label for="newName">Nome do candidato</label><input id="newName" maxlength="40" placeholder="Ex.: Candidato Exemplo"><label for="newNum">Número (2 dígitos)</label><input id="newNum" inputmode="numeric" maxlength="2" placeholder="Ex.: 22"><button class="secondary" id="addCandidate">Adicionar candidato</button></section>
+</main>
+<div class="footer">Top Candidatos • Projeto independente de brincadeira • Não afiliado à Justiça Eleitoral.</div>
+<script>
+const defaults=[{num:"10",name:"Sacola",party:"Partido da Zoeira"},{num:"22",name:"Candidato Exemplo",party:"Partido Fictício"},{num:"33",name:"Pessoa Inventada",party:"Partido da Amizade"}];
+const STORAGE="topCandidatosSimulatorV1";
+let data;
+try{data=JSON.parse(localStorage.getItem(STORAGE))||{candidates:defaults,votes:{},voted:false,blank:0}}catch(e){data={candidates:defaults,votes:{},voted:false,blank:0}}
+let digits="";
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify(data))}catch(e){}}
+function total(){return Object.values(data.votes).reduce((a,b)=>a+b,0)+data.blank}
+function byNum(n){return data.candidates.find(c=>c.num===n)}
+function render(){
+ const all=total(),sorted=[...data.candidates].sort((a,b)=>(data.votes[b.num]||0)-(data.votes[a.num]||0));
+ document.getElementById("candidates").innerHTML=sorted.map((c,i)=>{let v=data.votes[c.num]||0,p=all?Math.round(v/all*100):0;return `<div class="candidate"><div class="avatar">${String(i+1).padStart(2,"0")}</div><div class="details"><div class="name">${esc(c.name)}</div><div class="party">Nº ${c.num} • ${esc(c.party)}</div><div class="bar"><div class="fill" style="width:${p}%"></div></div></div><div class="votes">${v} voto${v===1?"":"s"}<div class="small">${p}%</div></div></div>`}).join("");
+ document.getElementById("results").innerHTML=sorted.map(c=>`<div class="result-line"><strong>${esc(c.name)} <span class="small">(${c.num})</span></strong><span>${data.votes[c.num]||0} voto(s)</span></div>`).join("")+`<div class="result-line"><strong>Votos em branco</strong><span>${data.blank}</span></div><div class="result-line"><strong>Total de votos</strong><span>${all}</span></div>`;
+ document.getElementById("candidatePreview").textContent=digits.length===2?(byNum(digits)?.name||"Número não encontrado"):digits.length?`Número ${digits}`:"Digite 2 números";
+ document.getElementById("digits").textContent=digits.padEnd(2,"_").split("").join(" ");
+ document.querySelectorAll("#keypad button").forEach(b=>{b.disabled=data.voted});
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+document.getElementById("keypad").addEventListener("click",e=>{let k=e.target.dataset.key;if(!k||data.voted)return;if(k==="clear"){digits="";}else if(k==="blank"){digits="BR";document.getElementById("candidatePreview").textContent="Voto em branco";}else if(k==="confirm"){if(digits==="BR"){data.blank++;data.voted=true;save();alert("Voto em branco registrado no simulador!");}else if(digits.length===2&&byNum(digits)){data.votes[digits]=(data.votes[digits]||0)+1;data.voted=true;save();alert("Voto registrado no simulador!");}else{alert("Digite um número válido de candidato.");return;}digits="";render();return;}else if(/^\d$/.test(k)&&digits.length<2){digits+=k;}render();});
+document.getElementById("reset").onclick=()=>{if(confirm("Zerar os votos salvos neste navegador?")){data={candidates:defaults,votes:{},voted:false,blank:0};digits="";save();render()}};
+document.getElementById("export").onclick=()=>{let text="TOP CANDIDATOS — RESULTADO FICTÍCIO\n"+data.candidates.map(c=>`${c.name} (${c.num}): ${data.votes[c.num]||0} voto(s)`).join("\n")+`\nBrancos: ${data.blank}\nTotal: ${total()}\n\nDados locais do simulador; não são resultados reais.`;let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/plain;charset=utf-8"}));a.download="resultado-top-candidatos.txt";a.click();URL.revokeObjectURL(a.href)};
+document.getElementById("addCandidate").onclick=()=>{let name=document.getElementById("newName").value.trim(),num=document.getElementById("newNum").value.trim();if(name.length<2||!/^\d{2}$/.test(num)){alert("Informe um nome e um número de dois dígitos.");return}if(byNum(num)){alert("Esse número já está em uso.");return}if(data.candidates.length>=10){alert("Máximo de 10 candidatos.");return}data.candidates.push({num,name,party:"Partido Fictício"});save();document.getElementById("newName").value="";document.getElementById("newNum").value="";render()};
+render();
+</script>
+</body></html>
